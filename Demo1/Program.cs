@@ -9,6 +9,8 @@ namespace Demo1 {
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
+            builder.Services.AddSwaggerGen();
+
 
             var app = builder.Build();
 
@@ -23,14 +25,17 @@ namespace Demo1 {
 
             //app.MapControllers();            
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
-            app.Run(async (context) => {
-                await context.Response.WriteAsync("<html><body><b>Hello World!</b></body></html>");
-            });
 
-            app.Run(async (context) => {
-                await context.Response.WriteAsync("<html><body><b>Login:...</b></body></html>");
-            });
+            //app.Run(async (context) => {
+            //    await context.Response.WriteAsync("<html><body><b>Hello World!</b></body></html>");
+            //});
+
+            //app.Run(async (context) => {
+            //    await context.Response.WriteAsync("<html><body><b>Login:...</b></body></html>");
+            //});
 
             app.Run();
         }
