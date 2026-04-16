@@ -14,24 +14,25 @@ namespace Demo1 {
 
             var app = builder.Build();
 
+
+            //app.Run(async (context) => {
+            //    await context.Response.WriteAsync("<html><body><b>Hello World!</b></body></html>");
+            //});
+
             // Configure the HTTP request pipeline.
-            //if (app.Environment.IsDevelopment()) {
-            //    app.MapOpenApi();
-            //}
+            if (app.Environment.IsDevelopment()) {
+                app.MapOpenApi();
+            
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             //app.UseHttpsRedirection();
 
             //app.UseAuthorization();
 
             //app.MapControllers();            
-
-            app.UseSwagger();
-            app.UseSwaggerUI();
-
-
-            //app.Run(async (context) => {
-            //    await context.Response.WriteAsync("<html><body><b>Hello World!</b></body></html>");
-            //});
+                        
 
             //app.Run(async (context) => {
             //    await context.Response.WriteAsync("<html><body><b>Login:...</b></body></html>");
