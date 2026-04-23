@@ -11,6 +11,14 @@ namespace Demo1 {
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddProblemDetails(o => {
+                o.CustomizeProblemDetails = (ctx) => {
+                    ctx.ProblemDetails.Extensions.Add("ApplicationName", "My Demo API");
+                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToUpper() == "DEVELOPMENT") {
+                        ctx.ProblemDetails.Extensions.Add("MachineName", Environment.MachineName);
+                    }
+                };
+            });
 
             var app = builder.Build();
 
