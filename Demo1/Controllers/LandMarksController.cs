@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Demo1.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Demo1.Controllers {
     [ApiController]
     [Route("api/cities/{cityID}/landmarks")]
     public class LandMarksController : Controller {
         [HttpGet]
-        public ActionResult GetLandMarks(int cityID) {
+        public ActionResult<IEnumerable<LandMarkDTO>> GetLandMarks(int cityID) {
             var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
 
             if (city == null) {
@@ -16,7 +17,7 @@ namespace Demo1.Controllers {
         }
 
         [HttpGet("{landMarkID}")]
-        public ActionResult GetLandMark(int cityID, int landMarkID) {
+        public ActionResult<LandMarkDTO> GetLandMark(int cityID, int landMarkID) {
             var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
 
             if (city == null) {
