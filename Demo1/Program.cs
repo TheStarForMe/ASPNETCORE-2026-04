@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.StaticFiles;
+
 namespace Demo1 {
     public class Program {
         public static void Main(string[] args) {
@@ -14,6 +16,8 @@ namespace Demo1 {
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
             builder.Services.AddProblemDetails(o => {
                 o.CustomizeProblemDetails = (ctx) => {

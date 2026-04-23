@@ -1,9 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace Demo1.Controllers {
     [ApiController]
     [Route("api/files")]
     public class FilesController : ControllerBase {
+        private FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
+
+        public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider) {
+            _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
+        }
 
         [HttpGet("{name}")]
         public ActionResult GetFile(string name) {
@@ -15,7 +21,11 @@ namespace Demo1.Controllers {
 
             var data = System.IO.File.ReadAllBytes(path);
 
-            return File(data, "text/plain", name);
+            if (!_fileExtensionContentTypeProvider.TryGetContentType(path, out var mimeType)) {
+                mimeType = "application/octet-stream";
+            }
+
+            return File(data, mimeType, name);
         }
     }
 }
