@@ -1,4 +1,5 @@
-﻿using Demo1.DTO;
+﻿using Demo1.DataStores;
+using Demo1.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo1.Controllers {
@@ -16,7 +17,7 @@ namespace Demo1.Controllers {
             return Ok(city.LandMarks);
         }
 
-        [HttpGet("{landMarkID}")]
+        [HttpGet("{landMarkID}"/*, Name = "GetLandMark"*/)]
         public ActionResult<LandMarkDTO> GetLandMark(int cityID, int landMarkID) {
             var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
 
@@ -31,6 +32,44 @@ namespace Demo1.Controllers {
             }
 
             return Ok(landMark);
+        }
+
+        [HttpPost]
+        public ActionResult<LandMarkDTO> AddLandMark(int cityID, LandMarkForCreateDTO newLandMark) {
+            var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+
+            if (city == null) {
+                return NotFound();
+            }
+
+            var lastID = CitiesDataStore.Current.SelectMany(c => c.LandMarks).Max(lm => lm.ID);
+
+            var finalLandMark = new LandMarkDTO {
+                ID = ++lastID,
+                Name = newLandMark.Name,
+                Description = newLandMark.Description
+            };
+
+            ((List<LandMarkDTO>)city.LandMarks).Add(finalLandMark);
+
+            //return CreatedAtRoute(
+            //    "GetLandMark", 
+            //    new { 
+            //        cityID = cityID,
+            //        landMarkID = finalLandMark.ID
+            //    }, 
+            //    finalLandMark
+            //);
+
+
+            return CreatedAtAction(
+                nameof(GetLandMark),
+                new {
+                    cityID = cityID,
+                    landMarkID = finalLandMark.ID
+                },
+                finalLandMark
+            );
         }
     }
 }

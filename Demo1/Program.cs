@@ -9,7 +9,7 @@ namespace Demo1 {
             // Add services to the container.
 
             builder.Services.AddControllers(o => {
-                o.ReturnHttpNotAcceptable = true;
+                // o.ReturnHttpNotAcceptable = true;
             }).AddXmlDataContractSerializerFormatters();
 
 
@@ -17,6 +17,7 @@ namespace Demo1 {
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
+            // add the FileExtensionContentTypeProvider as a singleton service to be injected into the FilesController
             builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
             builder.Services.AddProblemDetails(o => {
