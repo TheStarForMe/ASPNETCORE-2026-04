@@ -73,5 +73,25 @@ namespace Demo1.Controllers {
                 finalLandMark
             );
         }
+
+        [HttpPut("{landMarkID}")]
+        public ActionResult UpdateLandMark(int cityID, int landMarkID, LandMarkForUpdateDTO updatedLandMark) {
+            var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+
+            if (city == null) {
+                return NotFound();
+            }
+
+            var landMarkToUpdate = city.LandMarks.FirstOrDefault(lm => lm.ID == landMarkID);
+
+            if (landMarkToUpdate == null) {
+                return NotFound();
+            }
+
+            landMarkToUpdate.Name = updatedLandMark.Name;
+            landMarkToUpdate.Description = updatedLandMark.Description;
+
+            return NoContent();
+        }
     }
 }
