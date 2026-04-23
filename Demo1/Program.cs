@@ -6,7 +6,11 @@ namespace Demo1 {
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(o => {
+                o.ReturnHttpNotAcceptable = true;
+            }).AddXmlDataContractSerializerFormatters();
+
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
