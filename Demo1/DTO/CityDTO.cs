@@ -3,5 +3,9 @@
         public int ID { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
+
+        public int LandMarkCount => LandMarks.Count();
+
+        public IEnumerable<LandMarkDTO> LandMarks { get; set; } = new List<LandMarkDTO>();
     }
 }
