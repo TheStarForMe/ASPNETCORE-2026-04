@@ -1,0 +1,4 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/problem/5
+method: GET
+order: 3000

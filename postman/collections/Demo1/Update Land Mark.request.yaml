@@ -1,0 +1,13 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/1/landmarks/1
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"123455\",\r
+
+    \    \"description\": \"Some description\"\r
+
+    }"
+order: 8000

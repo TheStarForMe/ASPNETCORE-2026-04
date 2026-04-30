@@ -1,0 +1,13 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/1/landmarks/
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\": \"1234\",\r
+
+    \    \"description\": \"Some description asd asd asd ads asd asd asd asd asd asd asd asd asd adsasd\"\r
+
+    }"
+order: 7000

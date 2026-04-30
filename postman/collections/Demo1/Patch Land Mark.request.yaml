@@ -1,0 +1,19 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/1/landmarks/1
+method: PATCH
+body:
+  type: json
+  content: "[\r
+
+    \    {\r
+
+    \        \"op\": \"replace\",\r
+
+    \        \"path\": \"/name\",\r
+
+    \        \"value\": \"PATCHED!!\"\r
+
+    \    }\r
+
+    ]"
+order: 9000

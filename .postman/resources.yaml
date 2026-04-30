@@ -1,0 +1,13 @@
+# Use this workspace to collaborate
+workspace:
+  id: 6ef9d9c1-6039-4cc2-84e2-c3256df5c6ce
+
+localResources:
+  collections:
+    - ..\postman.json
+  specs:
+    - ..\Demo1\obj\Debug\net9.0\EndpointInfo\Demo1.json
+
+cloudResources:
+  collections:
+    ..\postman\collections\New Collection: 128075-ea8b2383-df52-4cb4-93eb-752845d1fd85

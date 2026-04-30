@@ -1,0 +1,4 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/1/landmarks/5
+method: GET
+order: 6000

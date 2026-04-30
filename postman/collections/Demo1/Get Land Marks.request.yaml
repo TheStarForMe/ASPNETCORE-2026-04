@@ -1,0 +1,9 @@
+$kind: http-request
+url: https://localhost:7029/api/cities/55/landmarks/
+method: GET
+headers:
+  Accept: application/xml
+settings:
+  disabledSystemHeaders:
+    - accept
+order: 5000
