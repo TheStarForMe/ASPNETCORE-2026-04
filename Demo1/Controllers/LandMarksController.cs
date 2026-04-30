@@ -118,13 +118,18 @@ namespace Demo1.Controllers {
                 Description = landMarkToUpdate.Description
             };
 
-            patchDoc.ApplyTo(lmToBePatched);
+            patchDoc.ApplyTo(lmToBePatched, ModelState);
+
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(lmToBePatched)) {
+                return BadRequest(ModelState);
+            }
 
             landMarkToUpdate.Name = lmToBePatched.Name;
             landMarkToUpdate.Description = lmToBePatched.Description;
-
-            // TODO: add validations!!!
-
 
             return NoContent();
         }

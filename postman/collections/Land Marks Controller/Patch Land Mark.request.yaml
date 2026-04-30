@@ -6,15 +6,27 @@ body:
   type: json
   content: "[\r
 
+    \r
+
     \    {\r
 
     \        \"op\": \"replace\",\r
 
     \        \"path\": \"/name\",\r
 
-    \        \"value\": \"PATCHED!!\"\r
+    \        \"value\": \"SIMON\"        \r
 
-    \    }\r
+    \    },\r
+
+    \    {\r
+
+    \        \"op\": \"replace\",\r
+
+    \        \"path\": \"/description\",\r
+
+    \        \"value\": \"New Description\"        \r
+
+    \    },\r
 
     ]"
 order: 10000

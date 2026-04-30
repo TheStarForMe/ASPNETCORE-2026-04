@@ -2,7 +2,7 @@
 
 namespace Demo1.DTO {
     public class LandMarkForCreateDTO {
-        [Required]
+        [Required(ErrorMessage = "Name is a must")]
         [MinLength(5, ErrorMessage = "No way dude, you cant do that!")]
         //[Range()]
         public string? Name { get; set; }
@@ -12,7 +12,7 @@ namespace Demo1.DTO {
     }
 
     public class LandMarkForUpdateDTO {
-        [Required]
+        [Required(ErrorMessage = "Name is a must")]
         [MinLength(5, ErrorMessage = "No way dude, you cant do that!")]
         //[Range()]
         public string? Name { get; set; }

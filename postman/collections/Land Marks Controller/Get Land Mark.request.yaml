@@ -1,5 +1,5 @@
 $kind: http-request
 name: Get Land Mark
-url: "{{Host}}/api/cities/1/landmarks/5"
+url: "{{Host}}/api/cities/1/landmarks/1"
 method: GET
 order: 6000
