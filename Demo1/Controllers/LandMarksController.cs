@@ -15,15 +15,25 @@ namespace Demo1.Controllers {
 
         [HttpGet]
         public ActionResult<IEnumerable<LandMarkDTO>> GetLandMarks(int cityID) {
-            var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+            try {
+                //throw new Exception("Exception ERROR!!!!");
 
-            if (city == null) {
-                return NotFound();
+                var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+
+                if (city == null) {
+                    _logger.LogInformation($"City with id {cityID} was not found when accessing landmarks.");
+                    return NotFound();
+                    //throw new ArgumentNullException("City not found");
+                }
+
+                _logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
+
+                return Ok(city.LandMarks);
+            } catch (Exception ex) {
+                _logger.LogCritical($"Exception while getting landmarks for city with id {cityID}. {ex.Message}", ex);
+                
+                return StatusCode(500, "A problem happened while handling your request.");
             }
-
-            _logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
-
-            return Ok(city.LandMarks);
         }
 
         [HttpGet("{landMarkID}"/*, Name = "GetLandMark"*/)]
