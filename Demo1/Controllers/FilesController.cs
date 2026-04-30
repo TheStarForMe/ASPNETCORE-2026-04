@@ -6,9 +6,15 @@ namespace Demo1.Controllers {
     [Route("api/files")]
     public class FilesController : ControllerBase {
         private FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
+        private ILogger<FilesController> _logger;
 
-        public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider) {
+        public FilesController(
+            FileExtensionContentTypeProvider fileExtensionContentTypeProvider, 
+            ILogger<FilesController> logger) {
+
+
             _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet("{name}")]
@@ -24,6 +30,8 @@ namespace Demo1.Controllers {
             if (!_fileExtensionContentTypeProvider.TryGetContentType(path, out var mimeType)) {
                 mimeType = "application/octet-stream";
             }
+
+            _logger.LogInformation($"Returned file with name {name} and mime type {mimeType}.");
 
             return File(data, mimeType, name);
         }

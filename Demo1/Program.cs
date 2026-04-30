@@ -4,6 +4,12 @@ using Microsoft.AspNetCore.StaticFiles;
 namespace Demo1 {
     public class Program {
         public static void Main(string[] args) {
+            //MyLogger logger = new MyLogger();
+
+            //Class1 c1 = new Class1(logger);
+            //Class2 c2 = new Class2(logger);
+
+
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
@@ -59,4 +65,67 @@ namespace Demo1 {
             app.Run();
         }
     }
+
+    //internal class Class1 {
+    //    private readonly MyLogger _logger;
+
+    //    public Class1(MyLogger logger) {
+    //        _logger = logger;
+
+    //        Child = new Class3(logger);
+    //    }
+
+    //    public int ID { get; set; }
+
+    //    public string Name { get; set; }
+
+    //    public void DoSomething() {
+    //        Console.WriteLine("Something");
+    //        _logger.Write("Did something in Class1");
+    //    }
+
+    //    public Class3 Child { get; set; };
+    //}
+
+    //internal class Class2 {
+    //    private readonly MyLogger _logger;
+
+    //    public Class2(MyLogger logger) {
+    //        _logger = logger;
+    //    }
+
+    //    public int ID { get; set; }
+
+    //    public string Name { get; set; }
+
+    //    public void DoSomething() {
+    //        Console.WriteLine("Something");
+    //        _logger.Write("Did something in Class2");
+    //    }
+    //}
+
+
+    //internal class Class3 {
+    //    private readonly MyLogger _logger;
+
+    //    public Class3(MyLogger logger) {
+    //        _logger = logger;
+    //    }
+
+    //    public int ID { get; set; }
+
+    //    public string Name { get; set; }
+
+    //    public void DoSomething() {
+    //        Console.WriteLine("Something");
+    //        _logger.Write("Did something in Class2");
+    //    }
+    //}
+
+
+    //internal class MyLogger {
+    //    public void Write(string message) {
+    //        Console.WriteLine(message);
+    //    }
+    //}
 }

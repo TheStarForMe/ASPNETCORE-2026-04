@@ -7,6 +7,12 @@ namespace Demo1.Controllers {
     [ApiController]
     [Route("api/cities/{cityID}/landmarks")]
     public class LandMarksController : Controller {
+        private readonly ILogger<LandMarksController> _logger;
+        public LandMarksController(ILogger<LandMarksController> logger) {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
+
         [HttpGet]
         public ActionResult<IEnumerable<LandMarkDTO>> GetLandMarks(int cityID) {
             var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
@@ -14,6 +20,8 @@ namespace Demo1.Controllers {
             if (city == null) {
                 return NotFound();
             }
+
+            _logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
 
             return Ok(city.LandMarks);
         }
