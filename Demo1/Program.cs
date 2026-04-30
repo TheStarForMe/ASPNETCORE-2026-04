@@ -22,14 +22,14 @@ namespace Demo1 {
             // add the FileExtensionContentTypeProvider as a singleton service to be injected into the FilesController
             builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 
-            builder.Services.AddProblemDetails(o => {
-                o.CustomizeProblemDetails = (ctx) => {
-                    ctx.ProblemDetails.Extensions.Add("ApplicationName", "My Demo API");
-                    if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToUpper() == "DEVELOPMENT") {
-                        ctx.ProblemDetails.Extensions.Add("MachineName", Environment.MachineName);
-                    }
-                };
-            });
+            //builder.Services.AddProblemDetails(o => {
+            //    o.CustomizeProblemDetails = (ctx) => {
+            //        ctx.ProblemDetails.Extensions.Add("ApplicationName", "My Demo API");
+            //        if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")?.ToUpper() == "DEVELOPMENT") {
+            //            ctx.ProblemDetails.Extensions.Add("MachineName", Environment.MachineName);
+            //        }
+            //    };
+            //});
 
             var app = builder.Build();
 

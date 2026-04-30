@@ -1,0 +1,15 @@
+$kind: http-request
+name: Upload File
+url: "{{Host}}/api/files/"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: file
+      key: file
+      src:
+        - /C:/Users/B160426MR/Downloads/sample-local-pdf.pdf
+      contentType: application/pdf
+      description: ""
+      disabled: false
+order: 1268

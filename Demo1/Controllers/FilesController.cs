@@ -27,5 +27,23 @@ namespace Demo1.Controllers {
 
             return File(data, mimeType, name);
         }
+
+        [HttpPost]
+        public async Task<ActionResult> UploadFile(IFormFile file) {
+            if (file.Length > 1000000) {
+                return BadRequest("File too big");
+            }
+            if (file.ContentType != "application/pdf") {
+                return BadRequest("I only accept pdf files");
+            }
+
+            string path = Path.Combine("uploads", Guid.NewGuid() + $"_{file.FileName}");
+
+            using (var stream = new FileStream(path, FileMode.Create)) {
+                await file.CopyToAsync(stream);
+            }
+
+            return NoContent();
+        }
     }
 }
