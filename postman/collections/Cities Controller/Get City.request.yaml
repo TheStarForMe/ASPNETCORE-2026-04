@@ -1,5 +1,6 @@
 $kind: http-request
-url: https://localhost:7029/api/cities/1
+name: Get City
+url: "{{Host}}/api/cities/1"
 method: GET
 headers:
   - key: Accept

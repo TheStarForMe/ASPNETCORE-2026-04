@@ -1,2 +1,8 @@
 name: Globals
-values: []
+values:
+  - key: Port
+    value: ''
+    enabled: true
+  - key: Host
+    value: ''
+    enabled: true

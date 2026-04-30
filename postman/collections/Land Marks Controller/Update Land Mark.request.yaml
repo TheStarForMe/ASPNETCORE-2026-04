@@ -1,5 +1,6 @@
 $kind: http-request
-url: https://localhost:7029/api/cities/1/landmarks/1
+name: Update Land Mark
+url: "{{Host}}/api/cities/1/landmarks/1"
 method: PUT
 body:
   type: json

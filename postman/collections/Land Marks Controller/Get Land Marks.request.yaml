@@ -1,5 +1,6 @@
 $kind: http-request
-url: https://localhost:7029/api/cities/55/landmarks/
+name: Get Land Marks
+url: "{{Host}}/api/cities/55/landmarks/"
 method: GET
 headers:
   Accept: application/xml
