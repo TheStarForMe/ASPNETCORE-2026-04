@@ -19,9 +19,14 @@ namespace Demo1.Controllers {
         [HttpGet]
         public IEnumerable<CityDTO> GetCities() {
             _logger.LogInformation("No Property here");
-            using (LogContext.PushProperty("Simon", Guid.NewGuid())) { 
+            using (LogContext.PushProperty("Simon", Guid.NewGuid())) {
+                _email.Send("Getting all cities", "Getting all cities was called.");
+
                 _logger.LogInformation("Getting all cities");
                 _logger.LogInformation("Returned {CityCount} cities", CitiesDataStore.Current.Count);
+                
+                _email.Send("All cities were accessed", $"All cities were accessed at {DateTime.UtcNow}.");
+
                 return CitiesDataStore.Current;
             }
         }

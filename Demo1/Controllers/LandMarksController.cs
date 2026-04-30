@@ -1,5 +1,6 @@
 ﻿using Demo1.DataStores;
 using Demo1.DTO;
+using Demo1.Services;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +9,11 @@ namespace Demo1.Controllers {
     [Route("api/cities/{cityID}/landmarks")]
     public class LandMarksController : Controller {
         private readonly ILogger<LandMarksController> _logger;
-        public LandMarksController(ILogger<LandMarksController> logger) {
+        private readonly IEmailService _email;
+
+        public LandMarksController(ILogger<LandMarksController> logger, IEmailService email) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _email = email ?? throw new ArgumentNullException(nameof(email));
         }
 
 
@@ -27,6 +31,8 @@ namespace Demo1.Controllers {
             }
 
             _logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
+
+            _email.Send("Landmarks were accessed", $"Landmarks for city with id {cityID} were accessed at {DateTime.UtcNow}.");
 
             return Ok(city.LandMarks);
             //} catch (Exception ex) {

@@ -22,7 +22,7 @@ namespace Demo1 {
                 .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
-            
+
             //builder.Logging.ClearProviders();
             //builder.Logging.AddConsole();
 
@@ -43,12 +43,15 @@ namespace Demo1 {
 
             // add the FileExtensionContentTypeProvider as a singleton service to be injected into the FilesController
             builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
+            //builder.Services.AddScoped<IEmailService, DevelopmentEmailService>();
 
 #if DEBUG
             builder.Services.AddTransient<IEmailService, DevelopmentEmailService>();
 #else
             builder.Services.AddTransient<IEmailService, ProductionEmailService>();
 #endif
+            //builder.Services.AddScoped<IEmailService, ProductionEmailService>();
+
 
             builder.Services.AddProblemDetails();
 
@@ -71,7 +74,7 @@ namespace Demo1 {
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment()) {
                 app.MapOpenApi();
-            
+
                 app.UseSwagger();
                 app.UseSwaggerUI();
             } else {
@@ -82,7 +85,7 @@ namespace Demo1 {
 
             //app.UseAuthorization();
 
-            app.MapControllers();            
+            app.MapControllers();
 
             //app.Run(async (context) => {
             //    await context.Response.WriteAsync("<html><body><b>Login:...</b></body></html>");
