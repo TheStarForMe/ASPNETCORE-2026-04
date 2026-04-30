@@ -15,10 +15,10 @@ namespace Demo1.Controllers {
 
         [HttpGet]
         public ActionResult<IEnumerable<LandMarkDTO>> GetLandMarks(int cityID) {
-            throw new Exception("Exception ERROR!!!!");
+            //throw new Exception("Exception ERROR!!!!");
 
             //try {
-            var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+            var city = CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
 
             if (city == null) {
                 _logger.LogInformation($"City with id {cityID} was not found when accessing landmarks.");

@@ -10,11 +10,14 @@ namespace Demo1 {
             //Class1 c1 = new Class1(logger);
             //Class2 c2 = new Class2(logger);
 
+            string template = "{Timestamp:dd-MM-yyyy} [{MachineName}-{ThreadId}] ({RequestId}) {Message}{NewLine}{Properties}{NewLine}{NewLine}";
+
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.Console(outputTemplate: "{Timestamp:dd-MM-yyyy} [{MachineName}-{ThreadId}] {Message}{NewLine}")
-                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Minute)
-                .Enrich.WithMachineName()
+                .WriteTo.Console(outputTemplate: template)
+                .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Minute, outputTemplate: template)
+                //.Enrich.WithMachineName()
                 .Enrich.WithThreadId()
+                .Enrich.FromLogContext()
                 .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
