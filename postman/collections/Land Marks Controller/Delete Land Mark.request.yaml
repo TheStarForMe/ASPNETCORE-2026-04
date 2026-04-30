@@ -1,5 +1,5 @@
 $kind: http-request
-name: Get Land Mark
+name: Delete Land Mark
 url: "{{Host}}/api/cities/1/landmarks/1"
-method: GET
-order: 2000
+method: DELETE
+order: 5370

@@ -133,5 +133,27 @@ namespace Demo1.Controllers {
 
             return NoContent();
         }
+
+        [HttpDelete("{landMarkID}")]
+        public ActionResult DeleteLandMark(int cityID,
+            int landMarkID
+            ) {
+
+            var city = DataStores.CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+
+            if (city == null) {
+                return NotFound();
+            }
+
+            var landMarkToDelete = city.LandMarks.FirstOrDefault(lm => lm.ID == landMarkID);
+
+            if (landMarkToDelete == null) {
+                return NotFound();
+            }
+
+            ((List<LandMarkDTO>)city.LandMarks).Remove(landMarkToDelete);
+
+            return NoContent();
+        }
     }
 }

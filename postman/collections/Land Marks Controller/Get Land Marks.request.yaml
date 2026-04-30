@@ -1,10 +1,12 @@
 $kind: http-request
 name: Get Land Marks
-url: "{{Host}}/api/cities/55/landmarks/"
+url: "{{Host}}/api/cities/1/landmarks/"
 method: GET
 headers:
-  Accept: application/xml
+  - key: Accept
+    value: application/xml
+    disabled: true
 settings:
   disabledSystemHeaders:
     - accept
-order: 5000
+order: 1000
