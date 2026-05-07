@@ -50,19 +50,38 @@ namespace Demo1.Controllers {
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CityDTO> GetCity(int id) {
-
-            var city = CitiesDataStore.
-                Current.
-                FirstOrDefault(c => c.ID == id);
+        public async Task<ActionResult<CityDTO>> GetCity(int id) {
+            
+            var city = await _cityRepository.GetCityAsync(id, false);
 
             if (city == null) {
                 return NotFound();
             }
 
-            _email.Send("City was accessed", $"City with id: {id} was accessed.");
+            CityDTO cityDto = new CityDTO() {
+                ID = city.Id,
+                Name = city.Name,
+                Description = city.Description,
+                LandMarks = city.LandMarks.Select(l => new LandMarkDTO() {
+                    ID = l.Id,
+                    Name = l.Name,
+                    Description = l.Description
+                })
+            };
 
-            return city;
+            return Ok(cityDto);
+
+            //var city = CitiesDataStore.
+            //    Current.
+            //    FirstOrDefault(c => c.ID == id);
+
+            //if (city == null) {
+            //    return NotFound();
+            //}
+
+            //_email.Send("City was accessed", $"City with id: {id} was accessed.");
+
+            //return city;
         }
 
         [HttpGet("problem/{id}")]
