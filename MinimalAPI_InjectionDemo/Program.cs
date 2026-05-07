@@ -13,9 +13,7 @@ InitDB(cs);
 
 app.MapGet("/", () => "This is my api");
 
-
-
-app.MapGet("/users", (string userName) => {
+app.MapGet("/users/unsafe", (string userName) => {
     using var connection = new SqliteConnection(cs);
     connection.Open();
 
@@ -46,7 +44,41 @@ app.MapGet("/users", (string userName) => {
     return Results.Ok(users);
 });
 
+app.MapGet("/users/safe", (string userName) => {
+    using var connection = new SqliteConnection(cs);
 
+    connection.Open();
+
+    using var cmd = connection.CreateCommand();
+
+    cmd.CommandText = """
+        SELECT
+            *
+        FROM
+            Users
+        WHERE
+            Username = @UserName
+    """;
+
+    cmd.Parameters.AddWithValue("@UserName", userName);
+
+    using var reader = cmd.ExecuteReader();
+
+    var users = new List<User>();
+
+    while (reader.Read()) {
+        users.Add(new User(
+            reader.GetInt32(0),
+            reader.GetString(1),
+            reader.GetString(2),
+            reader.GetString(3),
+            reader.GetBoolean(4)
+        ));
+    }
+
+    return Results.Ok(users);
+
+});
 
 
 app.Run();
