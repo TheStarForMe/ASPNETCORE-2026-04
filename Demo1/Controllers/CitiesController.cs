@@ -2,6 +2,7 @@
 using Demo1.DbContexts;
 using Demo1.DTO;
 using Demo1.Services;
+using Demo1.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Serilog.Context;
 
@@ -11,17 +12,17 @@ namespace Demo1.Controllers {
     public class CitiesController : ControllerBase {
         private readonly ILogger<CitiesController> _logger;
         private readonly IEmailService _email;
-        private readonly MyMainContext _context;
+        private readonly ICityRepository _cityRepository;
 
-        public CitiesController(ILogger<CitiesController> logger, IEmailService email, MyMainContext context) {
+        public CitiesController(ILogger<CitiesController> logger, IEmailService email, ICityRepository cityRepository) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = email ?? throw new ArgumentNullException(nameof(email));
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<CityWithoutLandmarksDTO>> GetCities() {
+        public async Task<ActionResult<IEnumerable<CityWithoutLandmarksDTO>>> GetCities() {
             //_logger.LogInformation("No Property here");
             //using (LogContext.PushProperty("Simon", Guid.NewGuid())) {
             //    _email.Send("Getting all cities", "Getting all cities was called.");
@@ -37,7 +38,7 @@ namespace Demo1.Controllers {
 
             var cities = new List<CityWithoutLandmarksDTO>();
 
-            foreach (var city in _context.Cities) {
+            foreach (var city in await _cityRepository.GetCitiesAsync()) {
                 cities.Add(new CityWithoutLandmarksDTO() {
                     ID = city.Id,
                     Name = city.Name,

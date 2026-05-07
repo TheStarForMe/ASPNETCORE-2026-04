@@ -1,6 +1,7 @@
 
 using Demo1.DbContexts;
 using Demo1.Services;
+using Demo1.Services.Repositories;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -54,6 +55,7 @@ namespace Demo1 {
 #endif
             //builder.Services.AddScoped<IEmailService, ProductionEmailService>();
 
+            builder.Services.AddScoped<ICityRepository, CityRepository>();
 
             // Inject MyMainContext as a service to be used in the controllers
             builder.Services.AddDbContext<MyMainContext>(opt =>
