@@ -1,6 +1,8 @@
 
+using Demo1.DbContexts;
 using Demo1.Services;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Demo1 {
@@ -51,6 +53,11 @@ namespace Demo1 {
             builder.Services.AddTransient<IEmailService, ProductionEmailService>();
 #endif
             //builder.Services.AddScoped<IEmailService, ProductionEmailService>();
+
+
+            // Inject MyMainContext as a service to be used in the controllers
+            builder.Services.AddDbContext<MyMainContext>(opt => 
+                opt.UseSqlite("Data Source=MyCities.db"));
 
 
             builder.Services.AddProblemDetails();
