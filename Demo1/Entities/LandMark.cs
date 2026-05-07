@@ -20,5 +20,7 @@ namespace Demo1.Entities {
 
         public int CityId { get; set; }
         public City City { get; set; }
+
+        public bool IsNice { get; set; }
     }
 }

@@ -14,6 +14,8 @@ namespace Demo1.Entities {
         [MaxLength(500)]
         public string? Description { get; set; }
 
+        public int Population { get; set; }
+
         public City(string name) {
             Name = name;
         }
