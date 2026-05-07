@@ -56,7 +56,7 @@ namespace Demo1 {
 
 
             // Inject MyMainContext as a service to be used in the controllers
-            builder.Services.AddDbContext<MyMainContext>(opt => 
+            builder.Services.AddDbContext<MyMainContext>(opt =>
                 opt.UseSqlite("Data Source=MyCities.db"));
 
 
@@ -73,13 +73,18 @@ namespace Demo1 {
 
             var app = builder.Build();
 
-
             //app.Run(async (context) => {
             //    await context.Response.WriteAsync("<html><body><b>Hello World!</b></body></html>");
             //});
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment()) {
+                using (var scope = app.Services.CreateScope()) {
+                    var ctx = scope.ServiceProvider.GetRequiredService<MyMainContext>();
+                    ctx.Database.Migrate();
+                }
+
+
                 app.MapOpenApi();
 
                 app.UseSwagger();

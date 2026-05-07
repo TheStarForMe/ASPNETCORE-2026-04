@@ -16,6 +16,8 @@ namespace Demo1.Entities {
 
         public int Population { get; set; }
 
+        public string Country { get; set; }
+
         public City(string name) {
             Name = name;
         }
