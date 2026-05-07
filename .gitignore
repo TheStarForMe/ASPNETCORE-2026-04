@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /MinimalAPI_InjectionDemo/mydb.db
+/Demo1/MyCities.db
+/Demo1/MyCities.db-shm
+/Demo1/MyCities.db-wal
