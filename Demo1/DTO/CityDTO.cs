@@ -8,4 +8,11 @@
 
         public IEnumerable<LandMarkDTO> LandMarks { get; set; } = new List<LandMarkDTO>();
     }
+
+
+    public class CityWithoutLandmarksDTO {
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public string? Description { get; set; }
+    }
 }

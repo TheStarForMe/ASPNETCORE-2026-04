@@ -1,4 +1,5 @@
 ﻿using Demo1.DataStores;
+using Demo1.DbContexts;
 using Demo1.DTO;
 using Demo1.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,25 +11,41 @@ namespace Demo1.Controllers {
     public class CitiesController : ControllerBase {
         private readonly ILogger<CitiesController> _logger;
         private readonly IEmailService _email;
-        public CitiesController(ILogger<CitiesController> logger, IEmailService email) {
+        private readonly MyMainContext _context;
+
+        public CitiesController(ILogger<CitiesController> logger, IEmailService email, MyMainContext context) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = email ?? throw new ArgumentNullException(nameof(email));
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
 
         [HttpGet]
-        public IEnumerable<CityDTO> GetCities() {
-            _logger.LogInformation("No Property here");
-            using (LogContext.PushProperty("Simon", Guid.NewGuid())) {
-                _email.Send("Getting all cities", "Getting all cities was called.");
+        public ActionResult<IEnumerable<CityWithoutLandmarksDTO>> GetCities() {
+            //_logger.LogInformation("No Property here");
+            //using (LogContext.PushProperty("Simon", Guid.NewGuid())) {
+            //    _email.Send("Getting all cities", "Getting all cities was called.");
 
-                _logger.LogInformation("Getting all cities");
-                _logger.LogInformation("Returned {CityCount} cities", CitiesDataStore.Current.Count);
-                
-                _email.Send("All cities were accessed", $"All cities were accessed at {DateTime.UtcNow}.");
+            //    _logger.LogInformation("Getting all cities");
+            //    _logger.LogInformation("Returned {CityCount} cities", CitiesDataStore.Current.Count);
 
-                return CitiesDataStore.Current;
+            //    _email.Send("All cities were accessed", $"All cities were accessed at {DateTime.UtcNow}.");
+
+            //    return CitiesDataStore.Current;
+            //}
+
+
+            var cities = new List<CityWithoutLandmarksDTO>();
+
+            foreach (var city in _context.Cities) {
+                cities.Add(new CityWithoutLandmarksDTO() {
+                    ID = city.Id,
+                    Name = city.Name,
+                    Description = city.Description
+                });
             }
+
+            return Ok(cities);
         }
 
         [HttpGet("{id}")]
