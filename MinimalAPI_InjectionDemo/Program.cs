@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Data.Sqlite;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,11 +6,50 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 // https://www.connectionstrings.com/ - great source for connection strings
-InitDB("Data Source=mydb.db;");
+// https://sqlitestudio.pl/ - great tool to manage SQLite databases
+
+string cs = "Data Source=mydb.db;";
+InitDB(cs);
+
+app.MapGet("/", () => "This is my api");
+
+
+
+app.MapGet("/users", (string userName) => {
+    using var connection = new SqliteConnection(cs);
+    connection.Open();
+
+    using var cmd = connection.CreateCommand();
+    cmd.CommandText = $"""
+        SELECT
+            *
+        FROM
+            Users
+        WHERE
+            Username = '{userName}'
+    """;
+
+    using var reader = cmd.ExecuteReader();
+
+    var users = new List<User>();
+
+    while (reader.Read()) {
+        users.Add(new User(
+            reader.GetInt32(0),
+            reader.GetString(1),
+            reader.GetString(2),
+            reader.GetString(3),
+            reader.GetBoolean(4)
+        ));
+    }
+
+    return Results.Ok(users);
+});
+
+
 
 
 app.Run();
-
 
 
 static void InitDB(string connectionString) {
@@ -17,7 +57,7 @@ static void InitDB(string connectionString) {
 
     connection.Open();
 
-    var cmd = connection.CreateCommand();
+    using var cmd = connection.CreateCommand();
 
     cmd.CommandText = """
 
@@ -43,3 +83,5 @@ static void InitDB(string connectionString) {
 
     cmd.ExecuteNonQuery();
 }
+
+record User(int Id, string Username, string Email, string PasswordHash, bool IsAdmin);
