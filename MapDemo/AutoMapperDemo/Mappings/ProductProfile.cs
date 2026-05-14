@@ -6,6 +6,7 @@ namespace MapDemo.AutoMapperDemo.Mappings {
     public class ProductProfile : Profile {
         public ProductProfile() {
             CreateMap<Product, ProductDto>();
+            CreateMap<Feature, FeatureDto>();
         }
     }
 }

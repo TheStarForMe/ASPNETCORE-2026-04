@@ -3,7 +3,7 @@
 namespace MapDemo.Shared.Repositories {
     public class ProductStorage : IProductStorage {
         private object _lock = new object();
-        
+
         private List<Product> _products = new List<Product>() {
             new Product() {
                 Id = 1,
@@ -11,7 +11,12 @@ namespace MapDemo.Shared.Repositories {
                 Description = "A high-performance laptop.",
                 Price = 999.99m,
                 Stock = 10,
-                Notes = "Comes with a 1-year warranty."
+                Notes = "Comes with a 1-year warranty.",
+                Features = new List<Feature>() {
+                    new Feature() { Key = "Processor", Value = "Intel Core i7" },
+                    new Feature() { Key= "RAM", Value = "16GB" },
+                    new Feature() { Key= "Storage", Value = "512GB SSD" }
+                }
             },
             new Product() {
                 Id = 2,
@@ -19,7 +24,12 @@ namespace MapDemo.Shared.Repositories {
                 Description = "A latest model smartphone.",
                 Price = 699.99m,
                 Stock = 20,
-                Notes = "Includes a free case."
+                Notes = "Includes a free case.",
+                Features = new List<Feature>() {
+                    new Feature() { Key = "Screen Size", Value = "6.5 inches" },
+                    new Feature() { Key = "Battery", Value = "4000mAh" },
+                    new Feature() { Key = "Camera", Value = "12MP" }
+                }
             }
         };
 
@@ -79,7 +89,15 @@ namespace MapDemo.Shared.Repositories {
                 Description = product.Description,
                 Price = product.Price,
                 Stock = product.Stock,
-                Notes = product.Notes
+                Notes = product.Notes,
+                Features = product.Features.Select(Clone).ToList()
+            };
+        }
+
+        private static Feature Clone(Feature feature) {
+            return new Feature() {
+                Key = feature.Key,
+                Value = feature.Value
             };
         }
 

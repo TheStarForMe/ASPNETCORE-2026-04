@@ -32,7 +32,7 @@ namespace MapDemo.AutoMapperDemo.Controllers {
             if (product == null) {
                 return NotFound();
             }
-            return Ok(product);
+            return Ok(_mapper.Map<ProductDto>(product));
         }
     }
 }
