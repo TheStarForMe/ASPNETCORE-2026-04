@@ -10,6 +10,10 @@ namespace Demo1.Services.Repositories {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
+        public Task<bool> ExistsAsync(int id) {
+            return _context.Cities.AnyAsync(c => c.Id == id);
+        }
+
         public async Task<ICollection<City>> GetCitiesAsync() {
             return await _context.Cities.OrderByDescending(c => c.Name).ToListAsync();
         }
@@ -31,6 +35,8 @@ namespace Demo1.Services.Repositories {
     public interface ICityRepository {
         Task<ICollection<City>> GetCitiesAsync();
 
-        Task<City?> GetCityAsync(int id, bool includeLandMarks);
+        Task<bool> ExistsAsync(int id);
+
+        Task<City?> GetCityAsync(int id, bool includeLandMarks = false);
     }
 }

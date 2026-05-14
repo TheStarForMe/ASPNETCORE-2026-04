@@ -2,6 +2,7 @@
 using Demo1.DataStores;
 using Demo1.DTO;
 using Demo1.Services;
+using Demo1.Services.Repositories;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,37 +13,55 @@ namespace Demo1.Controllers {
         private readonly ILogger<LandMarksController> _logger;
         private readonly IEmailService _email;
         private readonly IMapper _mapper;
+        private readonly ICityRepository _cityRepository;
+        private readonly ILandMarkRepository _landMarkRepository;
 
-        public LandMarksController(ILogger<LandMarksController> logger, IEmailService email, IMapper mapper) {
+        public LandMarksController(ILogger<LandMarksController> logger, 
+            IEmailService email, 
+            IMapper mapper, 
+            ICityRepository cityRepository,
+            ILandMarkRepository landMarkRepository) {
+
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = email ?? throw new ArgumentNullException(nameof(email));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _landMarkRepository = landMarkRepository ?? throw new ArgumentNullException(nameof(landMarkRepository));
         }
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<LandMarkDTO>> GetLandMarks(int cityID) {
-            //throw new Exception("Exception ERROR!!!!");
+        public async Task<ActionResult<IEnumerable<LandMarkDTO>>> GetLandMarks(int cityID) {
+            ////throw new Exception("Exception ERROR!!!!");
 
-            //try {
-            var city = CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
+            ////try {
+            //var city = CitiesDataStore.Current.FirstOrDefault(c => c.ID == cityID);
 
-            if (city == null) {
-                _logger.LogInformation($"City with id {cityID} was not found when accessing landmarks.");
+            //if (city == null) {
+            //    _logger.LogInformation($"City with id {cityID} was not found when accessing landmarks.");
+            //    return NotFound();
+            //    //throw new ArgumentNullException("City not found");
+            //}
+
+            //_logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
+
+            //_email.Send("Landmarks were accessed", $"Landmarks for city with id {cityID} were accessed at {DateTime.UtcNow}.");
+
+            //return Ok(city.LandMarks);
+            ////} catch (Exception ex) {
+            ////    _logger.LogCritical($"Exception while getting landmarks for city with id {cityID}. {ex.Message}", ex);
+
+            ////    return StatusCode(500, "A problem happened while handling your request.");
+            ////}
+            ///
+
+            if (!await _cityRepository.ExistsAsync(cityID)) {
                 return NotFound();
-                //throw new ArgumentNullException("City not found");
             }
 
-            _logger.LogInformation($"Returned {city.LandMarks.Count()} landmarks for city with id {cityID}.");
+            var landMarks = await _landMarkRepository.GetForCityAsync(cityID);
 
-            _email.Send("Landmarks were accessed", $"Landmarks for city with id {cityID} were accessed at {DateTime.UtcNow}.");
-
-            return Ok(city.LandMarks);
-            //} catch (Exception ex) {
-            //    _logger.LogCritical($"Exception while getting landmarks for city with id {cityID}. {ex.Message}", ex);
-
-            //    return StatusCode(500, "A problem happened while handling your request.");
-            //}
+            return Ok(_mapper.Map<IEnumerable<LandMarkDTO>>(landMarks));
         }
 
         [HttpGet("{landMarkID}"/*, Name = "GetLandMark"*/)]
