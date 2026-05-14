@@ -13,6 +13,10 @@ namespace AutoMapperDemo {
             // Inject our data repository as a dependency
             builder.Services.AddSingleton<IProductStorage, ProductStorage>();
 
+            builder.Services.AddAutoMapper(_ => {
+                // license: https://automapper.org/en/stable/Dependency-injection.html#aspnet-core
+            }, typeof(Program));
+
             // add swagger for API documentation
             builder.Services.AddSwaggerGen();
 
