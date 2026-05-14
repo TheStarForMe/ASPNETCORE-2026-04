@@ -31,6 +31,7 @@ namespace MapDemo.Shared.Repositories {
 
         public Product Add(Product product) {
             product.Id = _products.Max(p => p.Id) + 1; // Auto-increment ID
+            product.Notes += "Added to storage on " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             _products.Add(product);
             return product;
         }
