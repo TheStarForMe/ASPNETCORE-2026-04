@@ -2,10 +2,10 @@
 
 namespace MapDemo.Shared.Repositories {
     public interface IProductStorage {
-        Product Add(Product product);
-        void Delete(int id);
-        List<Product> Get();
+        IReadOnlyList<Product> Get();
         Product? Get(int id);
+        Product Add(Product product);
         Product? Update(int id, Product updatedProduct);
+        void Delete(int id);
     }
 }

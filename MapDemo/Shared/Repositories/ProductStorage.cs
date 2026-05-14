@@ -2,6 +2,8 @@
 
 namespace MapDemo.Shared.Repositories {
     public class ProductStorage : IProductStorage {
+        private object _lock = new object();
+        
         private List<Product> _products = new List<Product>() {
             new Product() {
                 Id = 1,
@@ -21,39 +23,65 @@ namespace MapDemo.Shared.Repositories {
             }
         };
 
-        public List<Product> Get() {
-            return _products;
+        public IReadOnlyList<Product> Get() {
+            lock (_lock) {
+                return _products.Select(Clone).ToList();
+            }
         }
 
         public Product? Get(int id) {
-            return _products.FirstOrDefault(p => p.Id == id);
+            lock (_lock) {
+                var product = _products.FirstOrDefault(p => p.Id == id);
+                return product != null ? Clone(product) : null;
+            }
         }
 
         public Product Add(Product product) {
-            product.Id = _products.Max(p => p.Id) + 1; // Auto-increment ID
-            product.Notes += "Added to storage on " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            _products.Add(product);
-            return product;
+            lock (_lock) {
+                var productToAdd = Clone(product);
+
+                productToAdd.Id = _products.Max(p => p.Id) + 1; // Auto-increment ID
+                productToAdd.Notes += "Added to storage on " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                _products.Add(productToAdd);
+
+                return Clone(productToAdd);
+            }
         }
 
         public Product? Update(int id, Product updatedProduct) {
-            var existingProduct = _products.FirstOrDefault(p => p.Id == id);
-            if (existingProduct == null) {
-                return null;
+            lock (_lock) {
+                var existingProduct = _products.FirstOrDefault(p => p.Id == id);
+                if (existingProduct == null) {
+                    return null;
+                }
+                existingProduct.Name = updatedProduct.Name;
+                existingProduct.Description = updatedProduct.Description;
+                existingProduct.Price = updatedProduct.Price;
+                existingProduct.Stock = updatedProduct.Stock;
+                existingProduct.Notes = updatedProduct.Notes;
+                return Clone(existingProduct);
             }
-            existingProduct.Name = updatedProduct.Name;
-            existingProduct.Description = updatedProduct.Description;
-            existingProduct.Price = updatedProduct.Price;
-            existingProduct.Stock = updatedProduct.Stock;
-            existingProduct.Notes = updatedProduct.Notes;
-            return existingProduct;
         }
 
         public void Delete(int id) {
-            var product = _products.FirstOrDefault(p => p.Id == id);
-            if (product != null) {
-                _products.Remove(product);
+            lock (_lock) {
+                var product = _products.FirstOrDefault(p => p.Id == id);
+                if (product != null) {
+                    _products.Remove(product);
+                }
             }
         }
+
+        private static Product Clone(Product product) {
+            return new Product() {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Stock = product.Stock,
+                Notes = product.Notes
+            };
+        }
+
     }
 }
