@@ -6,7 +6,10 @@ namespace MapDemo.AutoMapperDemo.Mappings {
     public class ProductProfile : Profile {
         public ProductProfile() {
             CreateMap<Product, ProductDto>();
-            CreateMap<Feature, FeatureDto>();
+            CreateMap<Feature, FeatureDto>()
+                .ForMember(
+                    dest => dest.Text, 
+                    opt => opt.MapFrom(src => $"** {src.Key}: {src.Value} **"));
         }
     }
 }

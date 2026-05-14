@@ -34,5 +34,7 @@ namespace MapDemo.AutoMapperDemo.Controllers {
             }
             return Ok(_mapper.Map<ProductDto>(product));
         }
+
+
     }
 }
