@@ -1,3 +1,5 @@
+using MapDemo.Shared.Repositories;
+
 namespace AutoMapperDemo {
     public class Program {
         public static void Main(string[] args) {
@@ -7,6 +9,14 @@ namespace AutoMapperDemo {
 
             builder.Services.AddControllers();
 
+
+            // Inject our data repository as a dependency
+            builder.Services.AddSingleton<IProductStorage, ProductStorage>();
+
+            // add swagger for API documentation
+            builder.Services.AddSwaggerGen();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -15,6 +25,8 @@ namespace AutoMapperDemo {
 
             app.UseAuthorization();
 
+            app.UseSwagger();
+            app.UseSwaggerUI();
 
             app.MapControllers();
 
