@@ -35,6 +35,29 @@ namespace MapDemo.AutoMapperDemo.Controllers {
             return Ok(_mapper.Map<ProductDto>(product));
         }
 
+        [HttpPost]
+        public ActionResult<ProductDto> Create(ProductDtoForCreate productToCreate) {
+            var product = _mapper.Map<Product>(productToCreate);
 
+            var createdProduct = _productStorage.Add(product);
+
+            return Ok(_mapper.Map<ProductDto>(createdProduct));
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult<ProductDto> Update(int id, ProductDtoForUpdate productForUpdate) {
+            var product = _mapper.Map<Product>(productForUpdate);
+
+            var updatedProduct = _productStorage.Update(id, product);
+
+            return Ok(_mapper.Map<ProductDto>(updatedProduct));
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(int id) {
+            _productStorage.Delete(id);
+
+            return NoContent();
+        }
     }
 }

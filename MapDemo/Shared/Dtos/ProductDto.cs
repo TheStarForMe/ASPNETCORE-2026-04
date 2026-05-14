@@ -14,4 +14,18 @@ namespace MapDemo.Shared.Dtos {
 
         public List<FeatureDto> Features { get; set; } = new List<FeatureDto>();
     }
+
+    public sealed class ProductDtoForCreate {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
+    }
+
+    public class ProductDtoForUpdate {
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public int Stock { get; set; }
+    }
 }

@@ -6,6 +6,9 @@ namespace MapDemo.AutoMapperDemo.Mappings {
     public class ProductProfile : Profile {
         public ProductProfile() {
             CreateMap<Product, ProductDto>();
+            CreateMap<ProductDtoForCreate, Product>();
+            CreateMap<ProductDtoForUpdate, Product>();
+
             CreateMap<Feature, FeatureDto>()
                 .ForMember(
                     dest => dest.Text, 
