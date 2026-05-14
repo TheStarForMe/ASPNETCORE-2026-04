@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="MapDemo/AutoMapperDemo/AutoMapperDemo.csproj" Id="f7d15c9d-da3a-4331-a3c0-2d19651343f6" />
+  <Project Path="MapDemo/MapperlyDemo/MapperlyDemo.csproj" Id="0cbb7049-a7ee-4674-90ad-bec992ae8dcf" />
   <Project Path="MapDemo/Shared/Shared.csproj" Id="79739f4b-b372-4a48-a592-3bdd2a423b44" />
 </Solution>
