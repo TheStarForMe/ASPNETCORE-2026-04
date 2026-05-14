@@ -59,6 +59,7 @@ namespace Demo1 {
             //builder.Services.AddScoped<IEmailService, ProductionEmailService>();
 
             builder.Services.AddScoped<ICityRepository, CityRepository>();
+            builder.Services.AddScoped<ILandMarkRepository, LandMarkRepository>();
 
             // Inject MyMainContext as a service to be used in the controllers
             builder.Services.AddDbContext<MyMainContext>(opt =>

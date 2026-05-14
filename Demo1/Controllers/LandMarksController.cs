@@ -1,4 +1,5 @@
-﻿using Demo1.DataStores;
+﻿using AutoMapper;
+using Demo1.DataStores;
 using Demo1.DTO;
 using Demo1.Services;
 using Microsoft.AspNetCore.JsonPatch;
@@ -10,10 +11,12 @@ namespace Demo1.Controllers {
     public class LandMarksController : Controller {
         private readonly ILogger<LandMarksController> _logger;
         private readonly IEmailService _email;
+        private readonly IMapper _mapper;
 
-        public LandMarksController(ILogger<LandMarksController> logger, IEmailService email) {
+        public LandMarksController(ILogger<LandMarksController> logger, IEmailService email, IMapper mapper) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = email ?? throw new ArgumentNullException(nameof(email));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 
