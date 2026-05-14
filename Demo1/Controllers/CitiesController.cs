@@ -1,4 +1,5 @@
-﻿using Demo1.DataStores;
+﻿using AutoMapper;
+using Demo1.DataStores;
 using Demo1.DbContexts;
 using Demo1.DTO;
 using Demo1.Services;
@@ -13,11 +14,13 @@ namespace Demo1.Controllers {
         private readonly ILogger<CitiesController> _logger;
         private readonly IEmailService _email;
         private readonly ICityRepository _cityRepository;
+        private readonly IMapper _mapper;
 
-        public CitiesController(ILogger<CitiesController> logger, IEmailService email, ICityRepository cityRepository) {
+        public CitiesController(ILogger<CitiesController> logger, IEmailService email, ICityRepository cityRepository, IMapper mapper) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _email = email ?? throw new ArgumentNullException(nameof(email));
             _cityRepository = cityRepository ?? throw new ArgumentNullException(nameof(cityRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
 
@@ -36,17 +39,19 @@ namespace Demo1.Controllers {
             //}
 
 
-            var cities = new List<CityWithoutLandmarksDTO>();
+            //var cities = new List<CityWithoutLandmarksDTO>();
 
-            foreach (var city in await _cityRepository.GetCitiesAsync()) {
-                cities.Add(new CityWithoutLandmarksDTO() {
-                    ID = city.Id,
-                    Name = city.Name,
-                    Description = city.Description
-                });
-            }
+            //foreach (var city in await _cityRepository.GetCitiesAsync()) {
+            //    cities.Add(new CityWithoutLandmarksDTO() {
+            //        ID = city.Id,
+            //        Name = city.Name,
+            //        Description = city.Description
+            //    });
+            //}
 
-            return Ok(cities);
+            var cities = await _cityRepository.GetCitiesAsync();
+            
+            return Ok(_mapper.Map<List<CityWithoutLandmarksDTO>>(cities));
         }
 
         [HttpGet("{id}")]

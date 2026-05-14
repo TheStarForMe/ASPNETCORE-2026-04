@@ -43,6 +43,9 @@ namespace Demo1 {
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(_ => {
+                // license goes here
+            }, typeof(Program));
 
             // add the FileExtensionContentTypeProvider as a singleton service to be injected into the FilesController
             builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
