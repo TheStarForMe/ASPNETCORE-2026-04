@@ -7,6 +7,7 @@ namespace Demo1.Mappings {
         public CityProfile() {
             CreateMap<City, CityDTO>();
             CreateMap<City, CityWithoutLandmarksDTO>();
+            CreateMap<LandMark, LandMarkDTO>();
         }
     }
 }

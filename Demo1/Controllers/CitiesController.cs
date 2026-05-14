@@ -55,26 +55,31 @@ namespace Demo1.Controllers {
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<CityDTO>> GetCity(int id) {
+        public async Task<IActionResult> GetCity(int id, bool includeLandmarks = false) {
             
-            var city = await _cityRepository.GetCityAsync(id, false);
+            var city = await _cityRepository.GetCityAsync(id, includeLandmarks);
 
             if (city == null) {
                 return NotFound();
             }
 
-            CityDTO cityDto = new CityDTO() {
-                ID = city.Id,
-                Name = city.Name,
-                Description = city.Description,
-                LandMarks = city.LandMarks.Select(l => new LandMarkDTO() {
-                    ID = l.Id,
-                    Name = l.Name,
-                    Description = l.Description
-                })
-            };
+            if (includeLandmarks) {
+                return Ok(_mapper.Map<CityDTO>(city)) ;
+            }
+            return Ok(_mapper.Map<CityWithoutLandmarksDTO>(city));
 
-            return Ok(cityDto);
+            //CityDTO cityDto = new CityDTO() {
+            //    ID = city.Id,
+            //    Name = city.Name,
+            //    Description = city.Description,
+            //    LandMarks = city.LandMarks.Select(l => new LandMarkDTO() {
+            //        ID = l.Id,
+            //        Name = l.Name,
+            //        Description = l.Description
+            //    })
+            //};
+
+            //return Ok(cityDto);
 
             //var city = CitiesDataStore.
             //    Current.
